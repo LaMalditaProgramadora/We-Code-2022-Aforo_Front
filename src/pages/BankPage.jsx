@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { listById } from "../services/BankService";
-import socket from "../utils/socket";
+import { listById } from "../services/BankService.js";
+import socket from "../utils/socket.js";
 
 const BankPage = () => {
   const [name, setName] = useState("");
@@ -26,29 +26,28 @@ const BankPage = () => {
   const [capacitySensorInt, setCapacitySensorInt] = useState(0);
 
   useEffect(() => {
-    if (idBank !== "") {
-      console.log("Use socket");
-      socket.on(`Send Capacity by Camera 1 ${idBank}`, (data) => {
-        if (capacityInt !== data.capacityInt) setCapacityInt(data.capacityInt);
-      });
-      socket.on(`Send Capacity by Camera 2 ${idBank}`, (data) => {
-        if (capacityAtm !== data.capacityAtm) setCapacityAtm(data.capacityAtm);
-      });
-      socket.on(`Send Capacity by Camera 3 ${idBank}`, (data) => {
-        if (capacityTranQueue !== data.capacityTranQueue) setCapacityTranQueue(data.capacityTranQueue);
-        if (capacityAtmQueue !== data.capacityAtmQueue) setCapacityAtmQueue(data.capacityAtmQueue);
-      });
-      socket.on(`Send Capacity by Ticket ${idBank}`, (data) => {
-        if (capacityNormalWindow !== data.capacityNormalWindow) setCapacityNormalWindow(data.capacityNormalWindow);
-        if (capacityNormalPlatform !== data.capacityNormalPlatform) setCapacityNormalPlatform(data.capacityNormalPlatform);
-        if (capacityPrefWindow !== data.capacityPrefWindow) setCapacityPrefWindow(data.capacityPrefWindow);
-        if (capacityPrefPlatform !== data.capacityPrefPlatform) setCapacityPrefPlatform(data.capacityPrefPlatform);
-      });
-      socket.on(`Send Capacity by Sensor ${idBank}`, (data) => {
-        if (capacitySensorInt !== data.capacitySensorInt) setCapacitySensorInt(data.capacitySensorInt);
-      });
-    }
-  }, [socket]);
+      if (idBank !== "") {
+        socket.on(`Send Capacity by Camera 1 ${idBank}`, (data) => {
+          if (capacityInt !== data.capacityInt) setCapacityInt(data.capacityInt);
+        });
+        socket.on(`Send Capacity by Camera 2 ${idBank}`, (data) => {
+          if (capacityAtm !== data.capacityAtm) setCapacityAtm(data.capacityAtm);
+        });
+        socket.on(`Send Capacity by Camera 3 ${idBank}`, (data) => {
+          if (capacityTranQueue !== data.capacityTranQueue) setCapacityTranQueue(data.capacityTranQueue);
+          if (capacityAtmQueue !== data.capacityAtmQueue) setCapacityAtmQueue(data.capacityAtmQueue);
+        });
+        socket.on(`Send Capacity by Ticket ${idBank}`, (data) => {
+          if (capacityNormalWindow !== data.capacityNormalWindow) setCapacityNormalWindow(data.capacityNormalWindow);
+          if (capacityNormalPlatform !== data.capacityNormalPlatform) setCapacityNormalPlatform(data.capacityNormalPlatform);
+          if (capacityPrefWindow !== data.capacityPrefWindow) setCapacityPrefWindow(data.capacityPrefWindow);
+          if (capacityPrefPlatform !== data.capacityPrefPlatform) setCapacityPrefPlatform(data.capacityPrefPlatform);
+        });
+        socket.on(`Send Capacity by Sensor ${idBank}`, (data) => {
+          if (capacitySensorInt !== data.capacitySensorInt) setCapacitySensorInt(data.capacitySensorInt);
+        });
+      }
+  }, );
 
   const listByIdFromApi = async (idBank) => {
     if (idBank === "") return;
@@ -57,12 +56,10 @@ const BankPage = () => {
         console.log(data);
         if (data && data.data) {
           setName(data.data.name);
-          socket.connect();
         }
       },
       (error) => {
         console.log(error);
-        socket.connect();
       }
     );
   }
