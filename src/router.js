@@ -10,7 +10,7 @@ export const AppRouter = () => {
       path: "/",
       children: [
         {
-          path: "bank",
+          path: "",
           element: (
             <BankPage />
           ),
