@@ -48,7 +48,7 @@ const BankPage = () => {
         if (capacitySensorInt !== data.capacitySensorInt) setCapacitySensorInt(data.capacitySensorInt);
       });
     }
-  }, []);
+  }, [socket]);
 
   const listByIdFromApi = async (idBank) => {
     if (idBank === "") return;
